@@ -1,0 +1,16 @@
+
+body{
+    background-color: #f5f7fa;
+}
+
+.card:hover{
+    transform: scale(1.01);
+    transition: 0.2s;
+}
+h1{
+    text-align: center;
+}
+
+h2{
+    font-weight: bold;
+}

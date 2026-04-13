@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Contact Form</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+    <h1>Please Fill-in the following form.</h1>
+
+
+        <div class="container mt-5">
+
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+
+                    <div class="card shadow">
+                        <div class="card-body">
+
+                            <h3 class="text-center mb-4">Add New Contact</h3>
+
+                            <form id="editForm">
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">First name</label>
+                                    <input type="text" class="form-control" id="firstname" name="firstname" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Last name</label>
+                                    <input type="text" class="form-control" id="lastname" name="lastname" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Mobile</label>
+                                    <input type="text" class="form-control" id="mobile" name="mobile">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Profile Image</label>
+                                    <input type="file" class="form-control" id="avatar" name="avatar">
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" id="homeLink" class="btn btn-secondary">Back</button>
+                                    <button type="submit" id="submitForm" class="btn btn-success">
+                                       <i class="fa fa-save"></i> Save Contact
+                                    </button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    
+    <br>
+
+
+    <script src="config.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        document.getElementById("submitForm").addEventListener('click', submitForm);
+        document.getElementById("homeLink").addEventListener('click', homeLink);
+
+        function submitForm(e){
+            e.preventDefault();
+
+            const form = new FormData(document.querySelector('#editForm'));
+            form.append('apiKey', apiKey);
+
+            fetch(rootPath + 'controller/insert-contact/',{
+                method: 'POST',
+                headers: {'accept': 'application/json, *.*' },
+                body: form
+
+            } )
+            .then(function(response){
+                return response.text();
+            })
+            .then(function(data){
+                if(data == "1"){
+                    alert("contact added")
+                    homeLink();
+                }else{
+                    alert(data);
+                    homeLink();
+                }
+            })
+        }
+
+        function homeLink(){
+            window.open("index.html", "_self");
+
+        }
+
+
+
+    </script>
+
+
+
+
+</body>
+</html>

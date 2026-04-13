@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Book app</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fontawesome/css/all.css">
+</head>
+<body onload="fetchContacts()">
+       
+    <!-- =============================HEADER========================================= -->
+
+    <div class="container mt-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Contact Book</h2>
+            <div>
+                <button id="refresh" type="button" >Refresh</button>
+                <button class="btn btn-success" id="addContact" type="button" >
+                   <i class="fa fa-plus"></i> Add contact
+                </button>
+
+            </div>
+
+        </div>
+
+    <!-- =============================CONTACT LIST========================================= -->
+
+        <div id="table">Contacts loading...</div>
+
+    </div>
+    
+   
+
+    
+
+
+    <script src="config.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById("refresh").addEventListener('click', fetchContacts);
+        document.getElementById("addContact").addEventListener('click', addContact);
+
+        function fetchContacts(){
+            fetch(rootPath + "controller/get-contacts/")
+            .then(function(response){
+                return response.json();
+            })
+            .then(function(data){
+                displayOutput(data);
+                // console.log(data);
+            })
+        }
+
+        function displayOutput(data){
+            let output = "<table>";                                 // create a new variable
+
+            for(a in data){                                         // create a for loop to iterate through the data
+                output += 
+                        `                      
+                            <div class="card mb-3 shadow-sm" onclick="editContact(${data[a].id})" style="cursor:pointer;">
+                                <div class="card-body d-flex align-items-center justify-content-between">
+                    
+                                    <div class="d-flex align-items-center">
+                                        <img src="${rootPath}controller/uploads/${data[a].avatar}" 
+                                        class="rounded-circle me-3" width="50" height="50"/>
+
+                                        <div>
+                                            <h5 class="mb-0">${data[a].firstname} ${data[a].lastname}</h5>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <button class="btn btn-sm btn-primary">Edit</button>
+                                    </div>
+
+                                 </div>
+                            </div>
+                        `;
+            }
+            output += "</table>";
+            document.getElementById("table").innerHTML = output;
+        }
+
+        function addContact(){
+            window.open("add-contact.html", "_self");
+        }
+
+        function editContact(id){
+            window.open("edit-contact.html?id=" + id, "_self");
+        }
+
+
+
+    </script>
+
+    
+</body>
+</html>
